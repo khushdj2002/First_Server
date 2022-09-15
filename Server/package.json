@@ -1,0 +1,19 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Our first nodeJs server",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/khushdj2002/First_Server.git"
+  },
+  "author": "Kushal D J",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/khushdj2002/First_Server/issues"
+  },
+  "homepage": "https://github.com/khushdj2002/First_Server#readme"
+}
