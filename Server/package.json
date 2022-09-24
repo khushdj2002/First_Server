@@ -1,10 +1,11 @@
 {
-  "name": "first_server",
+  "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "our first sever",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "runThis": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/khushdj2002/First_Server/issues"
   },
-  "homepage": "https://github.com/khushdj2002/First_Server#readme"
+  "homepage": "https://github.com/khushdj2002/First_Server#readme",
+  "dependencies": {
+    "nodemon": "^2.0.20"
+  }
 }
