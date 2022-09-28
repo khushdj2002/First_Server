@@ -17,13 +17,41 @@ http
         else if(method==="POST"){
             let body="";
             request.on("error",(err) => {
-                console.error(err)
+                console.error(err);
             }).on("data",(chunk)=>{
                 body+=chunk;
            //     console.log(chunk);
             }).on("end",()=>{
                 body =JSON.parse(body);
-                console.log("data:",body);
+                let newToDo = toDOList;
+                newToDo.push(body.item);
+                console.log(newToDo);
+                response.writeHead(201)
+            });
+        }
+        else if(method==="DELETE"){
+            let body = "";
+            request.on("error",(err)=>{
+                console.error(err);
+            }).on("data",(chunk)=>{
+                body+=chunk;
+            }).on("end",()=>{
+                body=JSON.parse(body);
+                let deleteThis=(body.item);
+                // for(let i=0;i<toDOList.length;i++){
+                //     if(toDOList[i]===deleteThis){
+                //         toDOList.splice(i,1);
+                //         break;
+                //     }
+                // }
+
+                toDOList.find((element, index)=>{
+                    if(element===deleteThis){
+                        toDOList.splice(index,1);
+                    }
+                });
+
+               response.writeHead(204); 
             });
         }
         else
