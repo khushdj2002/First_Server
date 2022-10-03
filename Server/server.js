@@ -1,68 +1,46 @@
-const http =require("http");
+const { request, response } = require('express');
+const express = require('express');
+
+//initilization
+
+const app = express();
+app.use(express.json()); //applicatio now will use json format for data
 
 const port = 8081;
 
 const toDOList = ["Complete Node Byte", "Play Cricket"];
 
-http
-    .createServer((request,response)=>{
-    const {method,url} = request;
+app.get("/todos",(request,response)=>{
 
-    if(url === "/todos"){
-        if(method === "GET"){
-            response.writeHead(200, {'Content-Type':"text/html"});
-            response.write(toDOList.toString())
-            // response.write(toDoList);
-        }
-        else if(method==="POST"){
-            let body="";
-            request.on("error",(err) => {
-                console.error(err);
-            }).on("data",(chunk)=>{
-                body+=chunk;
-           //     console.log(chunk);
-            }).on("end",()=>{
-                body =JSON.parse(body);
-                let newToDo = toDOList;
-                newToDo.push(body.item);
-                console.log(newToDo);
-                response.writeHead(201)
-            });
-        }
-        else if(method==="DELETE"){
-            let body = "";
-            request.on("error",(err)=>{
-                console.error(err);
-            }).on("data",(chunk)=>{
-                body+=chunk;
-            }).on("end",()=>{
-                body=JSON.parse(body);
-                let deleteThis=(body.item);
-                // for(let i=0;i<toDOList.length;i++){
-                //     if(toDOList[i]===deleteThis){
-                //         toDOList.splice(i,1);
-                //         break;
-                //     }
-                // }
-
-                toDOList.find((element, index)=>{
-                    if(element===deleteThis){
-                        toDOList.splice(index,1);
-                    }
-                });
-
-               response.writeHead(204); 
-            });
-        }
-        else
-        response.writeHead(404);
-    } 
-
-    response.end();
-
-})
-    .listen(port,()=>{
-    console.log(`Nodejs server started on port ${port}`);
+    response.status(200).send(toDOList);
+});
+app.post("/todos",(request,response)=>{
+    //callback
+    let newToDoItem = request.body.item;
+    toDOList.push(newToDoItem);
+    response.status(201).send({
+        message: "Task complted",
+    });
 });
 
-// http://localhost:8081/todos
+app.delete("/todos",(request,response)=>{
+   const itemToDelete = request.body.item;
+   
+   toDOList.find((element,index)=>{
+    if(element===itemToDelete){
+        toDOList.splice(index,1);
+    }
+   });
+   response.status(202).send({
+    message: `Deleted item - ${request.body.item}`,
+   })
+});
+//  app.all("/todos",(request,response)=>{
+    response.status(501).send();
+//  });
+app.all("*",(request,response)=>{
+    response.status(404).send();
+})
+app.listen(port,()=>{
+    console.log(`Nodejs server started on port ${port}`);
+});
